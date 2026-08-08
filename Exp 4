@@ -1,0 +1,33 @@
+data <- c(200, 300, 400, 600, 1000)
+
+cat("Original Data:\n")
+print(data)
+
+min_value <- min(data)
+max_value <- max(data)
+
+min_max <- (data - min_value) / (max_value - min_value)
+
+cat("\n(a) Min-Max Normalization:\n")
+print(round(min_max, 4))
+
+mean_value <- mean(data)
+sd_value <- sd(data)
+
+z_score <- (data - mean_value) / sd_value
+
+cat("\n(b) Z-Score Normalization:\n")
+print(round(z_score, 4))
+
+mean_absolute_deviation <- mean(abs(data - mean_value))
+
+z_score_mad <- (data - mean_value) / mean_absolute_deviation
+
+cat("\n(c) Z-Score Normalization using Mean Absolute Deviation:\n")
+print(round(z_score_mad, 4))
+
+max_digits <- nchar(as.character(max(data)))
+decimal_scaling <- data / (10 ^ max_digits)
+
+cat("\n(d) Decimal Scaling Normalization:\n")
+print(decimal_scaling)
