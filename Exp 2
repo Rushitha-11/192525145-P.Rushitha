@@ -1,0 +1,55 @@
+good_prob <- 0.45
+bad_prob <- 0.55
+expansion_cost <- 2
+no_expand_good <- 4
+no_expand_bad <- 1.5
+expand_good <- 7 - expansion_cost
+expand_bad <- 3 - expansion_cost
+emv_no_expand <- (good_prob * no_expand_good) + (bad_prob * no_expand_bad)
+emv_expand <- (good_prob * expand_good) + (bad_prob * expand_bad)
+cat("DECISION TREE ANALYSIS\n\n")
+cat("No Expansion:\n")
+cat("Good Economy =", no_expand_good, "M\n")
+cat("Bad Economy  =", no_expand_bad, "M\n")
+cat("EMV =", emv_no_expand, "M\n\n")
+cat("Expansion:\n")
+cat("Good Economy =", expand_good, "M\n")
+cat("Bad Economy  =", expand_bad, "M\n")
+cat("EMV =", emv_expand, "M\n\n")
+if(emv_expand > emv_no_expand) {
+  cat("Best Decision: EXPAND THE FACTORY\n")
+  cat("Maximum EMV =", emv_expand, "M\n")
+} else {
+  cat("Best Decision: DO NOT EXPAND THE FACTORY\n")
+  cat("Maximum EMV =", emv_no_expand, "M\n")
+}
+plot.new()
+plot.window(xlim = c(0, 10), ylim = c(0, 10))
+title("Decision Tree for Factory Expansion")
+text(1, 5, "Decision", cex = 1.2)
+segments(1.3, 5, 3, 7)
+segments(1.3, 5, 3, 3)
+text(2.1, 6.3, "Expand")
+text(2.1, 3.7, "No Expansion")
+points(3, 7, pch = 21, bg = "white", cex = 1.5)
+points(3, 3, pch = 21, bg = "white", cex = 1.5)
+text(3.7, 7, "Economy", cex = 1.1)
+text(3.7, 3, "Economy", cex = 1.1)
+segments(4, 7, 6, 8)
+segments(4, 7, 6, 6)
+segments(4, 3, 6, 4)
+segments(4, 3, 6, 2)
+text(4.8, 7.7, "Good (45%)")
+text(4.8, 6.3, "Bad (55%)")
+text(4.8, 3.7, "Good (45%)")
+text(4.8, 2.3, "Bad (55%)")
+text(7, 8, "Revenue = $7M")
+text(7, 6, "Revenue = $3M")
+text(7, 4, "Revenue = $4M")
+text(7, 2, "Revenue = $1.5M")
+text(7, 7.3, "Net = $5M")
+text(7, 5.3, "Net = $1M")
+text(7, 3.3, "Net = $4M")
+text(7, 1.3, "Net = $1.5M")
+text(8.8, 7, "EMV = $2.8M")
+text(8.8, 3, "EMV = $2.625M")
