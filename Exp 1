@@ -1,0 +1,41 @@
+sales <- c(5, 10, 11, 13, 15, 35, 50, 55, 72, 92, 204, 215)
+cat("Original Sales Data:\n")
+print(sales)
+cat("\n(a) Equal-Frequency (Equi-Depth) Partitioning\n")
+n <- length(sales)
+k <- 3
+bin_size <- n / k
+equi_frequency <- split(sales, rep(1:k, each = bin_size))
+for(i in 1:k) {
+  cat("Bin", i, ":", equi_frequency[[i]], "\n")
+}
+cat("\n(b) Equal-Width Partitioning\n")
+min_value <- min(sales)
+max_value <- max(sales)
+width <- (max_value - min_value) / k
+breaks <- c(
+  min_value,
+  min_value + width,
+  min_value + 2 * width,
+  max_value
+)
+equal_width <- cut(
+  sales,
+  breaks = breaks,
+  include.lowest = TRUE,
+  labels = c("Bin 1", "Bin 2", "Bin 3")
+)
+for(i in 1:k) {
+  cat("Bin", i, ":", sales[equal_width == paste0("Bin ", i)], "\n")
+}
+cat("\n(c) Clustering Method (K-Means)\n")
+set.seed(123)
+clusters <- kmeans(sales, centers = 3)
+cluster_result <- data.frame(
+  Sales = sales,
+  Cluster = clusters$cluster
+)
+cluster_result <- cluster_result[order(cluster_result$Cluster), ]
+for(i in 1:k) {
+  cat("Cluster", i, ":", cluster_result$Sales[cluster_result$Cluster == i], "\n")
+}
