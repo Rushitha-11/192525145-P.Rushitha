@@ -1,0 +1,29 @@
+data<-read.csv("~/DWDM/diabetes.csv",header=TRUE)
+
+data<-data[!is.na(data$Age)&!is.na(data$Glucose)&!is.na(data$Outcome),]
+
+linear_model<-lm(Outcome~Age,data=data)
+
+summary(linear_model)
+
+plot(data$Age,data$Outcome,
+main="Diabetes Trend by Age",
+xlab="Age",
+ylab="Diabetes Outcome",
+pch=19)
+
+abline(linear_model,lwd=2)
+
+multiple_model<-lm(Outcome~Age+Glucose+BloodPressure+BMI,data=data)
+
+summary(multiple_model)
+
+predicted<-predict(multiple_model,data=data)
+
+plot(data$Age,predicted,
+main="Multiple Regression: Diabetes Trend by Age",
+xlab="Age",
+ylab="Predicted Diabetes Outcome",
+pch=19)
+
+abline(lm(predicted~data$Age),lwd=2)
