@@ -1,0 +1,33 @@
+data<-read.csv("~/DWDM/diabetes.csv",header=TRUE)
+
+data<-data[!is.na(data$Age)&!is.na(data$BloodPressure),]
+
+plot(data$Age,data$BloodPressure,
+main="Blood Pressure vs Age",
+xlab="Age",
+ylab="Blood Pressure",
+pch=19)
+
+abline(lm(BloodPressure~Age,data=data),lwd=2)
+
+data$AgeGroup<-cut(data$Age,
+breaks=c(20,30,40,50,60,100),
+labels=c("21-30","31-40","41-50","51-60","61+"),
+include.lowest=TRUE)
+
+avg_bp<-aggregate(BloodPressure~AgeGroup,
+data=data,
+FUN=mean)
+
+barplot(avg_bp$BloodPressure,
+names.arg=avg_bp$AgeGroup,
+main="Average Blood Pressure by Age Group",
+xlab="Age Group",
+ylab="Average Blood Pressure",
+ylim=c(0,max(avg_bp$BloodPressure)+10),
+border="black")
+
+text(seq_along(avg_bp$BloodPressure),
+avg_bp$BloodPressure,
+labels=round(avg_bp$BloodPressure,1),
+pos=3)
