@@ -1,0 +1,56 @@
+# Q13: Data Binning and Smoothing
+
+# Dataset
+prices <- c(
+  1, 1, 5, 5, 5, 5, 5, 8, 8, 10, 10, 10, 10, 12,
+  14, 14, 14, 15, 15, 15, 15, 15, 15, 18, 18, 18, 18,
+  18, 18, 18, 18, 20, 20, 20, 20, 20, 20, 20, 20,
+  21, 21, 21, 21, 25, 25, 25, 25, 25, 28, 28, 30, 30, 30
+)
+
+# Check number of observations
+length(prices)
+
+# (i) Equal-frequency partitioning with 3 bins
+bins <- split(prices, cut(
+  seq_along(prices),
+  breaks = 3,
+  labels = FALSE
+))
+
+print("Equal-frequency bins:")
+print(bins)
+
+# (ii) Smoothing by bin means
+bin_means <- lapply(bins, function(x) {
+  rep(mean(x), length(x))
+})
+
+print("Smoothing using Bin Means:")
+print(bin_means)
+
+# Smoothing by bin boundaries
+bin_boundaries <- lapply(bins, function(x) {
+  lower <- min(x)
+  upper <- max(x)
+  
+  sapply(x, function(v) {
+    if ((v - lower) <= (upper - v)) {
+      lower
+    } else {
+      upper
+    }
+  })
+})
+
+print("Smoothing using Bin Boundaries:")
+print(bin_boundaries)
+
+# (iii) Histogram
+hist(
+  prices,
+  breaks = 10,
+  main = "Histogram of All Electronics Prices",
+  xlab = "Price",
+  ylab = "Frequency"
+)
