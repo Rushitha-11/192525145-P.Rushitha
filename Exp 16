@@ -1,0 +1,25 @@
+data <- data.frame(
+  Emails_Opened = c(80,75,20,25,90,85,30,35,70,65),
+  Clicks_Per_Email = c(8,7,2,3,9,8,3,4,6,5),
+  Time_Spent = c(15,14,5,6,18,17,7,8,12,11)
+)
+x <- scale(data)
+set.seed(123)
+kmeans_model <- kmeans(x, centers = 3)
+print(kmeans_model$cluster)
+dist_data <- dist(x)
+hc <- hclust(dist_data, method = "ward.D2")
+hc_clusters <- cutree(hc, k = 3)
+print(hc_clusters)
+library(cluster)
+k_sil <- silhouette(kmeans_model$cluster, dist_data)
+h_sil <- silhouette(hc_clusters, dist_data)
+k_score <- mean(k_sil[, 3])
+h_score <- mean(h_sil[, 3])
+cat("K-Means Silhouette Score:", round(k_score, 3), "\n")
+cat("Hierarchical Silhouette Score:", round(h_score, 3), "\n")
+if (k_score > h_score) {
+  cat("K-Means performs better.\n")
+} else {
+  cat("Hierarchical Clustering performs better.\n")
+}
